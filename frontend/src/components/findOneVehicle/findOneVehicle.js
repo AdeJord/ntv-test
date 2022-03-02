@@ -25,7 +25,8 @@ const useStyles = makeStyles((theme) => ({
     borderColor: 'black',
     borderRadius: '10px',
     textAlign: 'center',
-    fontSize: '20px'
+    fontSize: '20px',
+    textTransform: 'upperCase
   },
   content: {
     fontSize: '40px',
