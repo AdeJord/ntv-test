@@ -10,7 +10,7 @@ import HomePage from "./components/home/home";
 import ViewAllCars from "./components/viewAllCars/viewAllCars";
 import ViewCar from "./components/viewCar/viewCar";
 import styled from 'styled-components';
-import FindOneVehicle from "./components/findOneVehicle/findOneVehicle";
+import FindOneVehicle from './components/findOneVehicle/findOneVehicle'
 
 const Container = styled.div`
 color: red
