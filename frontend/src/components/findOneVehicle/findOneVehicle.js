@@ -2,7 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 //import styled from 'styled-components';
 import regInput from './regInput';
-import { getCar } from '../../services/api';
+import { getCarByRegistration } from '../../services/api';
 import { useParams } from "react-router-dom";
 
 /*
@@ -83,18 +83,24 @@ flex-direction: column
 
 export default function FindOneVehicle() {
   const classes = useStyles();
-  let urlParams = useParams();
+  const [getCar, setCar] = React.useState([]);
 
-//***********GRAB THE RESULTS DIV WITH DOC,GETELEMENT... AND MAKE IT EQUAL THE SEARCH RESULTS? */
+
 
   //when submit clicked need to save the input (regNo) and use
   //that to search for vehicle eg, RDA877L
-  function handleClick () {
-    let resultsCont = document.getElementById("resultsContainer")
+  // ALSO NEED TO REFACTOR SO NOT USING GETELEMENTBYID
+  async function handleClick () {
     let searchReg = document.getElementById('regInput');
-    console.log('submit clicked');
-    alert('looking for ' + searchReg.value);// this bit seems to work
-    resultsCont.textContent = searchReg.value
+    await getCarByRegistration(searchReg.value).then(response => {
+      // alert(JSON.stringify(response.data, null, 2));
+      if (response.data.length > 0) {
+        setCar(response.data);
+      } else {
+        alert('Nothing on that reg');
+      }
+      console.log(`cars ${response.data.length}`)
+    });
 };
 
   return (
@@ -105,7 +111,20 @@ export default function FindOneVehicle() {
       <input id="regInput" className={classes.input} placeholder="Enter Reg Here" /> 
       <button onClick={handleClick} className={classes.submitBtn}>Submit</button>
       <div id="resultsContainer" className={classes.results}>
-        <p>Results for </p>
+      {getCar.length > 0 &&
+          getCar.map(car => {
+            return(
+              <div className={classes.car}>
+                <div className={classes.detail}>Registration: {car.regNo}</div>
+                <div className={classes.detail}>Keys: {car.keys}</div>
+                <div className={classes.detail}>Company: {car.company}</div>
+                <div className={classes.detail}>Comments: {car.comments}</div>
+              </div>
+            )
+        })}
+        {getCar.length === 0 &&
+          <p>Results</p>
+        }
       </div>
     </div>
     

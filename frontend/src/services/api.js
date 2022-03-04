@@ -25,4 +25,16 @@ export const getCar = async (id) => {
     });
 };
 
+export const getCarByRegistration = async (reg) => {
+    return new Promise(async resolve => {
+        const url = baseUrl + "cars/reg?id=" + reg;
+        axios.get(url).then(response => {
+            resolve(response)
+        }).catch(error => {
+            alert(error);
+            resolve([]);
+        });
+    });
+};
+
 
