@@ -10,7 +10,7 @@ import HomePage from "./components/home/home";
 import ViewAllCars from "./components/viewAllCars/viewAllCars";
 import ViewCar from "./components/viewCar/viewCar";
 import styled from 'styled-components';
-import FindOneVehicle2 from './components/findOneVehicle/findOneVehicle2'
+import FindOneVehicle from './components/findOneVehicle/findOneVehicle'
 
 const Container = styled.div`
 color: red
@@ -43,7 +43,7 @@ function App() {
           <Link to="/view-all-cars" className={classes.menuItem}>
             View Cars
           </Link>
-          <Link to="/findOneVehicle2" className={classes.menuItem}>
+          <Link to="/findOneVehicle" className={classes.menuItem}>
             Find One Vehicle
           </Link>
           
@@ -58,8 +58,8 @@ function App() {
         <Route exact path="/view-car/:id">
           <ViewCar />
         </Route>
-        <Route exact path="/findOneVehicle2">
-          <FindOneVehicle2 />
+        <Route exact path="/findOneVehicle">
+          <FindOneVehicle />
         </Route>
       </Switch>
     </Router>
