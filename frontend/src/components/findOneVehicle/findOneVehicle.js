@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 //import styled from 'styled-components';
 import { getCarByRegistration } from '../../services/api';
 import { useParams } from "react-router-dom";
-import findOneVehicle2 from './findOneVehicle2'
+import '../../index.css'
 
 /*
 I think I have to add the code here to get the reg number and use mongoose to search for it
@@ -13,6 +13,7 @@ and return into the answer?
 
 const useStyles = makeStyles((theme) => ({
   wrap: {
+    position: "relative",
     width: '100%',
     height: '100vh',
     backgroundColor: '#dddddd',
@@ -37,7 +38,8 @@ const useStyles = makeStyles((theme) => ({
     height: 'auto',
     padding: '20px',
     backgroundColor: '#cccccc',
-    float: 'left'
+    float: 'left',
+    position: "relative",
   },
   submitBtn: {
     fontSize: '20px',
@@ -47,7 +49,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#cccccc',
     borderRadius: '10px',
     paddingBottom: '10px',
-    marginLeft: '20px'
+    marginLeft: '20px',
+    marginBottom: '30px'
   },
   form: {
     fontSize: '20px',
@@ -77,41 +80,44 @@ display: flex;
 flex-direction: column
 `*/
 
-
-
-
-
-export default function FindOneVehicle() {
+export default function FindOneVehicle2() {
   const classes = useStyles();
-  const [getCar, setCar] = React.useState([]);
+  const [getCar, setCar] = useState([]);
+  let [val, setVal] = useState('');
+  const inputRef = useRef();
+  
+  async function submitHandler (e)  {
+    e.preventDefault();
+    val = (inputRef.current.value.toUpperCase());
+    setVal(inputRef.current.value);
 
-  //when submit clicked need to save the input (regNo) and use
-  //that to search for vehicle eg, RDA877L
-  // ALSO NEED TO REFACTOR SO NOT USING GETELEMENTBYID
-  async function handleClick() {
-    let searchReg = document.getElementById('regInput');
-    await getCarByRegistration(searchReg.value).then(response => {
+
+    await getCarByRegistration(val).then(response => {
       //alert(JSON.stringify(response.data, null, 2));
       if (response.data.length > 0) {
         setCar(response.data);
       } else {
-        alert('Nothing on that reg');
+        alert('LB Nothing on that reg');
       }
-      console.log(`cars ${response.data.length}`)
+      console.log(`LB Cars matching ${val}:-  ${response.data.length}`)
     });
-  };
 
+    console.log(`LB ${val}`)
+  }
 
 
   return (
     <div className={classes.wrap}>
       <div className={classes.content}>
-        Find one vehicle
+        Search by Reg Number
       </div>
-      <form>
-        <input type="text" name="regInput" id="regInput" className={classes.input} placeholder="Enter Reg Here" />
+      <div className="App">
+      </div>
+      <form onSubmit={submitHandler}>
+        <input className={classes.input} ref={inputRef} />
+        <button type="submit">Submit</button>
       </form>
-      <button onClick={handleClick} className={classes.submitBtn}>Submit</button>
+      <p>Submit Value: <b>{val}</b></p>
       <div id="resultsContainer" className={classes.results}>
         {getCar.length > 0 &&
           getCar.map(car => {
